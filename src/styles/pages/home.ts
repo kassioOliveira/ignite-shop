@@ -11,7 +11,7 @@ marginLeft: 'auto',
 export const Product = styled('div',{
     background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
     borderRadius: 8,
-    cursor: 'pointer',
+    
     position: 'relative',
     overflow: 'hidden',
     minWidth: 540,
@@ -20,7 +20,8 @@ export const Product = styled('div',{
     justifyContent: 'center',
   
     img: {
-      objectFit: 'cover'
+      objectFit: 'cover',
+      cursor: 'pointer',
     },
   
     footer: {
@@ -64,7 +65,8 @@ export const Product = styled('div',{
       backgroundColor: '$green300',
       color:'$white',
       padding:'0.5rem',
-      borderRadius:8
+      borderRadius:8,
+      cursor: 'pointer',
     }
     },
   

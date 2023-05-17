@@ -13,6 +13,8 @@ import Link from 'next/link'
 import Head from 'next/head'
 
 import { Tote } from 'phosphor-react'
+import { useContext } from 'react'
+import { CartContext } from '@/contexts/CartContext'
 
 
 interface HomeProps {
@@ -21,10 +23,13 @@ interface HomeProps {
     name: string;
     imageUrl: string;
     price: string;
+    defaultPriceId: string;
   }[]
 }
 
 export default function Home({products}:HomeProps) {
+
+  const {addToCart} = useContext(CartContext)
 
   const [sliderRef] = useKeenSlider({
     slides:{
@@ -43,21 +48,23 @@ export default function Home({products}:HomeProps) {
 
 {products.map(product => {
   return (
-   <Link key={product.id} prefetch={false} href={`/product/${product.id}`}>
-    <Product   className='keen-slider__slide'>
+   
+    <Product key={product.id}   className='keen-slider__slide'>
+      <Link  prefetch={false} href={`/product/${product.id}`}>
 <Image src={product.imageUrl} width={520} height={480} alt='' />
+</Link>
 <footer>
    <div>
    <strong>{product.name}</strong>
   <span>{product.price}</span>
    </div>
    <div>
-    <Tote size={30}  />
+    <Tote size={30} onClick={() => addToCart({...product,quantity:1})}  />
    </div>
 
 </footer>
 </Product>
-   </Link>
+  
   )
 })}
    </HomeContainer>
@@ -81,7 +88,8 @@ export const getStaticProps:GetStaticProps =async () => {
       price: new Intl.NumberFormat('pt-BR',{
         style:'currency',
         currency: 'BRL'
-      }).format(price.unit_amount as number / 100)
+      }).format(price.unit_amount as number / 100),
+      defaultPriceId: price.id
       
     }
   })
