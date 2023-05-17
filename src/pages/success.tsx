@@ -9,15 +9,13 @@ import Stripe from 'stripe'
 
 interface SuccessProps {
     costumerName: string;
-    product: {
-      name: string;
-      imageUrl: string;
-    }
+    products: Stripe.Product[];
+    totalQuantity:number
   }
 
-export default function Success({ costumerName, product }: SuccessProps) {
+export default function Success({ costumerName, products,totalQuantity }: SuccessProps) {
 
-  return (
+return (
     <>
     <Head>
         <title>Compra efetuada | Ignite Shop</title>
@@ -25,15 +23,21 @@ export default function Success({ costumerName, product }: SuccessProps) {
     </Head>
 
 <SuccessContainer>
-        <h1>Compra efetuada</h1>
+        <h1>Compra efetuada!</h1>
 
-        <ImageContainer>
-            <Image src={product.imageUrl} width={120} height={110} alt=''/>
-        </ImageContainer>
+       <div>
+        {products.map((item:any) => {
+            return (
+                <ImageContainer key={item.id}>
+                <Image src={item.images[0]} width={125} height={100} alt=''/>
+            </ImageContainer>
+            )
+        })}
+       </div>
 
         <p>
             Uhuul <strong>{costumerName}</strong>,
-            sua <strong>{product.name}</strong> já está a caminho
+            sua compra de <strong>{`${totalQuantity}`}</strong> {`${totalQuantity > 1?('camisetas'):('camiseta')}`} já está a caminho
             da sua casa.
         </p>
 
@@ -65,15 +69,19 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
     })
 
     const costumerName = session.customer_details?.name;
-    const product = session.line_items?.data[0].price?.product as Stripe.Product;
+
+    const products = session.line_items?.data.map((item) => {
+        return item.price?.product as Stripe.Product;
+    })
+
+    const quantity =session.line_items?.data.reduce((acc: number,item:any) => ( acc + item.quantity ),0)
 
     return {
         props:{
             costumerName:costumerName,
-            product: {
-                name: product.name,
-                imageUrl: product.images[0]
-            }
+            products: products,
+           totalQuantity: quantity,
+
 
         }
     }
