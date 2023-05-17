@@ -10,7 +10,10 @@ right: '0',
 height:'100vh',
 width: '500px',
 display:'flex',
+
+gap:'1rem',
 alignItems: 'center',
+flexDirection:'column',
 justifyContent: 'center',
 
 svg:{
@@ -23,22 +26,71 @@ cursor:'pointer'
 
 
 section:{
-height: '80%',
+height: '70%',
 width: '80%',
 margin: ' 0 auto',
+overflow:'hidden',
 
 div:{
     display:'flex',
     flexDirection:'column',
     gap:'2rem'
-}
-
 },
 h1:{
     color:'$white',
     marginBottom: '1rem',
     fontSize:'$2xl'
 }
+
+},
+
+'> div':{
+    display:'flex',
+    flexDirection:'column',
+    alignItems:'center',
+    gap:'1.5rem',
+    width:'100%',
+   div:{
+    width:'90%',
+    display:'flex',
+    flexDirection:'column',
+    gap:'1rem',
+    span:{
+        display:'flex',
+        justifyContent:'space-between',
+        width:'100%',
+        color:'$gray300',
+        
+    },
+    'span:nth-child(2)':{
+        fontSize:'$md',
+        color:'$gray400',
+        strong:{
+            fontSize:'$lg', 
+        }
+    }
+   },
+    button:{
+        padding:'1rem 3rem',
+        borderRadius:8,
+        backgroundColor:'$green300',
+        fontSize:'$lg',
+        color:'$white',
+    border: 'none',
+    cursor:'pointer',
+    width:'90%',
+    fontWeight:'bold',
+    '&:disabled': {
+        opacity: 0.6,
+        cursor: 'not-allowed',
+      },
+  
+      '&:not(:disabled):hover': {
+        backgroundColor: '$green300',
+      }
+    }
+}
+
 })
 
 export const CardContainer = styled('article',{
