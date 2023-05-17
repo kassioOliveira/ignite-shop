@@ -9,42 +9,43 @@ const roboto = Roboto({weight:['400','700'] ,subsets: ['latin'] })
 import type { AppProps } from 'next/app'
 globalStyles()
 
-import logo from '../assets/Logo.svg'
-import { Container, Header } from '@/styles/pages/app'
-import Image from 'next/image'
+import { Container} from '@/styles/pages/app'
+
 import Cart from '@/components/Cart'
 
-import { Tote } from 'phosphor-react'
-import { useState } from 'react'
+import {  CartContextProvider } from '@/contexts/CartContext'
+import HeaderComponent from '@/components/HeaderComponent'
+import Image from 'next/image'
 
-export default function App({ Component, pageProps }: AppProps) {
+import logo from '../assets/Logo.svg'
 
- 
-  const [isCartOpen,setIsCartOpen] = useState(false);
-
-  function handleCart() {
-    setIsCartOpen((state) => !state)
-  }
+export default function App({ Component, pageProps,...appProps }: AppProps) {
 
 
-
-  return(
-        <Container className={roboto.className}>
-      
-    <Header>
-      <Image src={logo.src} width={100} height={100}  alt='' />
-
-      <div onClick={handleCart}>
-        <Tote size={30} />
-      </div>
-    </Header>
-    {
-    isCartOpen && (<Cart handleCart={handleCart}/>
+  if([`/success`].includes(appProps.router.pathname)){
+    return(
+      <Container className={roboto.className}>
+        <Image src={logo.src} width={150} height={130}  alt='' />
+      <Component {...pageProps} />   
+    </Container>
     )
-    }
-    <Component {...pageProps} />
-   
-  </Container>
+  }
+ 
+ 
+  return(
+
+    <CartContextProvider>
+  <Container className={roboto.className}>
+
+    <HeaderComponent/>
+
+    <Cart />
+
+      <Component {...pageProps} />
+     
+    </Container>
+    </CartContextProvider>
+      
   )
   
     

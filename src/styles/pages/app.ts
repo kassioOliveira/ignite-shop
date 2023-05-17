@@ -6,7 +6,11 @@ export const Container = styled('div',{
     alignItems:'flex-start',
     justifyContent:'center',
     minHeight: '100vh',
-    position:'relative'
+    position:'relative',
+
+   '> img':{
+        margin:'0 auto'
+    }
 })
 
 export const Header = styled('header', {
@@ -30,13 +34,13 @@ export const Header = styled('header', {
         cursor:'pointer',
 
         '&::after':{
-            content:'23',
+            content:`attr(data-count)`,
            position:'absolute',
            right:'-15px',
            top:'-10px',
            backgroundColor:'$green300',
            borderRadius:'50%',
-           padding: '5px',
+           padding: '5px 10px',
         }
     }
 })
